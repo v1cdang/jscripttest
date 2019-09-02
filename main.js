@@ -1,4 +1,11 @@
 'use strict';
+/**
+ * 
+ * The resulted data seems to be flawed, or I made a mistake checking the date
+ * Anyway, it was still fun working on this, although I had not enough time working
+ * on the unit testing
+ */
+
 const fs = require('fs');
 const fetch = require("node-fetch");
 const config = require('./config/config.json');
