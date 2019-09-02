@@ -1,8 +1,9 @@
 'use strict';
 const fs = require('fs');
 const fetch = require("node-fetch");
-const filename = process.argv.splice(2);
-
+const config = require('./config/config.json');
+//const filename = process.argv.splice(2);
+const filename = config.filename;
 var cashInApiData, cashOutNatApiData, cashOutJurApiData;
 
 const cashInUrl = 'http://private-38e18c-uzduotis.apiary-mock.com/config/cash-in';
@@ -64,7 +65,7 @@ Date.prototype.getWeek = function (dowOffset) {
 
 initialize()
     .then(function (apiData) {
-        fs.readFile(filename[0], 'utf-8', (error, data) => {
+        fs.readFile(filename, 'utf-8', (error, data) => {
             if (error) throw error;
             var data = JSON.parse(data);
 
@@ -105,7 +106,6 @@ initialize()
 
                     if (userType=='natural') {
                         var comm;
-                        //operationAmount * (apiData.cashOutNatApiData.percents / 100);
                         var weekLimit = apiData.cashOutNatApiData.week_limit.amount
                         
                         users.find((o,i) => {
@@ -118,7 +118,6 @@ initialize()
                                     }];
                                 } else {
                                     o.d.data.find((w) => {
-                                        //console.log(weekNum + ' ' + w.weekNum);
                                         if (w.weekNum == weekNum) {
                                             w.totalOpAmount = w.totalOpAmount + operationAmount;
                                         } else {
@@ -131,7 +130,6 @@ initialize()
                                         }
                                     })
                                 }
-                                //console.log(userId+' '+JSON.stringify(o.d))
                                 if(o.d.data[0].totalOpAmount <= weekLimit) {
                                     comm = 0;
                                 } else {
